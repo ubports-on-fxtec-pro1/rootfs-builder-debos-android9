@@ -1,0 +1,87 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $image := or .image "ubuntu-touch-pinepone-devboard1.img" -}}
+
+architecture: {{ $architecture }}
+actions:
+  - action: download
+    description: Download latest ubuntu touch rootfs from CI
+    url: https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
+    unpack: false
+    filename: ut-rootfs.tar.gz
+    name: ut-rootfs.tar.gz
+
+  - action: download
+    description: Fetch latest kernel ci build
+    url: https://gitlab.com/ubports/core/linux/-/jobs/artifacts/pinephone/download?job=build
+    name: kernel
+    filename: kernel.zip
+    unpack: true
+    compression: zip
+
+  - action: download
+    description: Fetch u-boot build
+    url: https://gitlab.com/ubports/core/u-boot/-/jobs/artifacts/master/download?job=build
+    name: u-boot
+    filename: build.zip
+    unpack: true
+    compression: zip
+
+  - action: unpack
+    description: Unpacking rootfs
+    origin: ut-rootfs.tar.gz
+    compression: gz
+
+  - action: overlay
+    description: Copying kernel to rootfs
+    origin: kernel
+    source: .
+    destination: /var/tmp/
+
+  - action: run
+    chroot: true
+    description: Installing kernel on rootfs
+    description: Install kernel
+    label: dpkg
+    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
+
+#  - action: run
+#    description: mkimage u-boot scr
+#    command: mkimage -A arm -O linux -T script -C none -n "U-Boot boot script" -d pinephone-dev1/overlay/boot/boot.txt pinephone-dev1/overlay/boot/boot.scr
+
+  - action: overlay
+    source: pinephone-dev1/overlay
+    destination: /
+
+  - action: image-partition
+    description: Creating image
+    imagename: {{ $image }}
+    imagesize: 4GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: ROOTFS
+    partitions:
+      - name: ROOTFS
+        fs: ext4
+        start: 1M
+        end: 100%
+        flags: [ boot ]
+
+  - action: filesystem-deploy
+    description: Deploying filesystem into image
+
+  - action: raw
+    description: Installing bootloader
+    origin: u-boot
+    source: u-boot-sunxi-with-spl-sopine.bin
+    offset: 8192
+
+  - action: run
+    description: Create bmap file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
+
+  - action: run
+    description: Compressing image
+    postprocess: true
+    command: gzip -f9 {{ $image }}
