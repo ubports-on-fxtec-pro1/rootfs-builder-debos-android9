@@ -3,16 +3,15 @@
 
 architecture: {{ $architecture }}
 actions:
-  - action: download
-    description: Download latest ubuntu touch rootfs from CI
-    url: https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
-    unpack: false
-    filename: ut-rootfs.tar.gz
-    name: ut-rootfs.tar.gz
+  - action: recipe
+    description: Setup core rootfs
+    recipe: mainline-rootfs-core.yaml
+    varables:
+      architecture: {{ $architecture }}
 
   - action: download
     description: Fetch latest kernel ci build
-    url: https://gitlab.com/ubports/core/linux/-/jobs/artifacts/pinephone/download?job=build
+    url: https://gitlab.com/pine64-org/linux/-/jobs/artifacts/pine64-kernel/download?job=build
     name: kernel
     filename: kernel.zip
     unpack: true
@@ -20,16 +19,25 @@ actions:
 
   - action: download
     description: Fetch u-boot build
-    url: https://gitlab.com/ubports/core/u-boot/-/jobs/artifacts/master/download?job=build
+    url: https://gitlab.com/pine64-org/u-boot/-/jobs/artifacts/master/download?job=build
     name: u-boot
     filename: build.zip
     unpack: true
     compression: zip
 
-  - action: unpack
-    description: Unpacking rootfs
-    origin: ut-rootfs.tar.gz
-    compression: gz
+  - action: download
+    description: Fetch mali blobs
+    url: https://repo.kaidan.im/debpm/pool/non-free/m/mali-utgard-driver/mali-400-wayland-driver_6.2-1_arm64.deb
+    name: mali
+    filename: mali.dpkg
+
+  - action: download
+    description: Fetch mali driver
+    url: https://gitlab.com/pine64-org/sunxi-mali/-/jobs/artifacts/master/download?job=build
+    name: malidriver
+    filename: malidriver.zip
+    unpack: true
+    compression: zip
 
   - action: overlay
     description: Copying kernel to rootfs
@@ -37,12 +45,24 @@ actions:
     source: .
     destination: /var/tmp/
 
+  - action: overlay
+    description: Copying mali driver to rootfs
+    origin: malidriver
+    source: .
+    destination: /
+
+  - action: overlay
+    description: Coping mali to rootfs
+    origin: mali
+    source: .
+    destination: /var/tmp/mali.deb
+
   - action: run
     chroot: true
-    description: Installing kernel on rootfs
+    description: Installing kernel and mali on rootfs
     description: Install kernel
     label: dpkg
-    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
+    command: dpkg -i --force-all /var/tmp/*.deb && rm /var/tmp/* -r
 
 #  - action: run
 #    description: mkimage u-boot scr
@@ -84,4 +104,4 @@ actions:
   - action: run
     description: Compressing image
     postprocess: true
-    command: gzip -f9 {{ $image }}
+    command: pigz -f9 {{ $image }}
