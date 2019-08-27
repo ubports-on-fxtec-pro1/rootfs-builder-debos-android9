@@ -62,7 +62,16 @@ actions:
     description: Installing kernel and mali on rootfs
     description: Install kernel
     label: dpkg
-    command: dpkg -i --force-all /var/tmp/*.deb && rm /var/tmp/* -r
+    command: dpkg --force-all -r libegl1-mesa libgbm1 libgles2-mesa libwayland-egl1-mesa && dpkg -i -B /var/tmp/*.deb && rm /var/tmp/* -r
+
+  - action: run
+    chroot: true
+    description: Setting egl libs to use mali
+    script: scripts/enable-mali.sh
+
+  - action: run
+    chroot: true
+    command: depmod -a 5.3.0-rc1-ubports-ga3054bbfd
 
 #  - action: run
 #    description: mkimage u-boot scr

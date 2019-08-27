@@ -1,0 +1,23 @@
+{{- $architecture := or .architecture "arm64" -}}
+
+architecture: {{ $architecture }}
+actions:
+  - action: overlay
+    source: mods-overlay
+    description: Adding mods overlay
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Setting password on phablet user
+    command: echo phablet:phablet | chpasswd
+
+  - action: run
+    chroot: true
+    description: Setting egl libs to use mesa
+    script: scripts/enable-mesa.sh
+
+  - action: run
+    chroot: true
+    description: Adding mainline repos
+    script: scripts/add-mainline-repos.sh

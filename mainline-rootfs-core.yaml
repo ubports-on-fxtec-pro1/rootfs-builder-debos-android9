@@ -13,3 +13,9 @@ actions:
     description: Unpacking rootfs
     origin: ut-rootfs.tar.gz
     compression: gz
+
+  - action: recipe
+    description: Applying common mods/hacks
+    recipe: mainline-rootfs-mods.yaml
+    varables:
+      architecture: {{ $architecture }}
