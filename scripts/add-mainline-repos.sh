@@ -24,3 +24,8 @@ apt upgrade -y --allow-downgrades
 apt autoremove -y
 
 apt install ubuntu-touch-session-wayland -y
+
+# Add mesa ld conf since latest does not provide this
+DEB_HOST_MULTIARCH="aarch64-linux-gnu"
+echo "/usr/lib/$(DEB_HOST_MULTIARCH)/mesa-egl" > /usr/lib/$DEB_HOST_MULTIARCH/mesa-egl/ld.so.conf
+update-alternatives --set $DEB_HOST_MULTIARCH"_egl_conf" /usr/lib/$DEB_HOST_MULTIARCH/mesa-egl/ld.so.conf
