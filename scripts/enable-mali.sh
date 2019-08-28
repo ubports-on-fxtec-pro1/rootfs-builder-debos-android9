@@ -10,3 +10,7 @@ update-alternatives --force --install /etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_EG
 
 # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
 LDCONFIG_NOTRIGGER=y ldconfig
+
+# Fix mali bug
+cd /usr/lib/aarch64-linux-gnu
+ln -s libwayland-egl.so libwayland-egl.so.1
