@@ -35,6 +35,7 @@ actions:
 
   - action: run
     description: Install deps
+    chroot: true
     script: ./scripts/apt-install.sh devio mtd-utils
 
   - action: download
