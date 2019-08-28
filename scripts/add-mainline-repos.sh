@@ -1,7 +1,11 @@
 #!/bin/sh
 
-echo "deb http://repo.ubports.com/ xenial-_edge_-_mesa main" >> /etc/apt/sources.list.d/ubports.list
-echo "deb http://repo.ubports.com/ xenial-_edge_-_pine main" >> /etc/apt/sources.list.d/ubports.list
+# Hack my damn network!
+rm -f /etc/resolv.conf
+echo "nameserver 1.1.1.1" > /etc/resolv.conf
+
+echo "deb http://repo.ubports.com/ xenial_-_edge_-_mesa main" >> /etc/apt/sources.list.d/ubports.list
+echo "deb http://repo.ubports.com/ xenial_-_edge_-_pine main" >> /etc/apt/sources.list.d/ubports.list
 
 apt update
 apt upgrade -y
