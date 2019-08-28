@@ -62,7 +62,7 @@ actions:
     description: Installing kernel and mali on rootfs
     description: Install kernel
     label: dpkg
-    command: dpkg --force-all -r libegl1-mesa libgbm1 libgles2-mesa libwayland-egl1-mesa && dpkg -i -B /var/tmp/*.deb && rm /var/tmp/* -r
+    command: dpkg --force-all -r libegl1-mesa libgbm1 libgles2-mesa libwayland-egl1-mesa libwayland-egl1 && dpkg -i -B /var/tmp/*.deb && rm /var/tmp/* -r
 
   - action: run
     chroot: true
