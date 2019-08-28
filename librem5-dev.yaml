@@ -36,7 +36,7 @@ actions:
   - action: run
     description: Install deps
     chroot: true
-    script: ./scripts/apt-install.sh devio mtd-utils
+    script: ./scripts/apt-install.sh devio mtd-utils u-boot-tools
 
   - action: download
     description: Fetch flash kernel
