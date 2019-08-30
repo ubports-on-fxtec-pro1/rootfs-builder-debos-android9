@@ -71,7 +71,7 @@ actions:
 
   - action: run
     chroot: true
-    command: depmod -a 5.3.0-rc1-ubports-ga3054bbfd
+    script: scripts/try-depmod-installed.sh
 
 #  - action: run
 #    description: mkimage u-boot scr
