@@ -57,6 +57,12 @@ actions:
     source: .
     destination: /var/tmp/mali.deb
 
+    # This needs to be done before update-initramfs (done by installing kernel with dpkg)
+  - action: run
+    chroot: true
+    description: Disabling lima
+    command: echo "blacklist lima" > /etc/modprobe.d/disable-lima.conf
+
   - action: run
     chroot: true
     description: Installing kernel and mali on rootfs
