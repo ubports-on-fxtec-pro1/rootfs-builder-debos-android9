@@ -14,10 +14,10 @@ actions:
 
   - action: run
     chroot: true
-    description: Setting egl libs to use mesa (for common rootfs)
-    script: scripts/enable-mesa.sh
+    description: Adding mainline repos
+    script: scripts/add-mainline-repos.sh
 
   - action: run
     chroot: true
-    description: Adding mainline repos
-    script: scripts/add-mainline-repos.sh
+    description: Setting egl libs to use mesa (for common rootfs)
+    script: scripts/enable-mesa.sh
