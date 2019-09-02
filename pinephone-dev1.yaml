@@ -1,5 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-pinephone-devboard1.img" -}}
+{{- $variant := or .variant "mali" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -29,19 +30,13 @@ actions:
     unpack: true
     compression: zip
 
-  - action: download
-    description: Fetch mali blobs
-    url: https://repo.kaidan.im/debpm/pool/non-free/m/mali-utgard-driver/mali-400-wayland-driver_6.2-1_arm64.deb
-    name: mali
-    filename: mali.dpkg
-
-  - action: download
-    description: Fetch mali driver
-    url: https://gitlab.com/pine64-org/sunxi-mali/-/jobs/artifacts/ubports/download?job=build
-    name: malidriver
-    filename: malidriver.zip
-    unpack: true
-    compression: zip
+{{ if eq $variant "mali" }}
+  - action: recipe
+    description: Setting up mali
+    recipe: pinephone-mali.yaml
+    varables:
+      architecture: {{ $architecture }}
+{{end}}
 
   - action: overlay
     description: Copying kernel to rootfs
@@ -49,35 +44,11 @@ actions:
     source: .
     destination: /var/tmp/
 
-  - action: overlay
-    description: Copying mali driver to rootfs
-    origin: malidriver
-    source: .
-    destination: /
-
-  - action: overlay
-    description: Coping mali to rootfs
-    origin: mali
-    source: .
-    destination: /var/tmp/mali.deb
-
-    # This needs to be done before update-initramfs (done by installing kernel with dpkg)
   - action: run
     chroot: true
-    description: Disabling lima
-    command: echo "blacklist lima" > /etc/modprobe.d/disable-lima.conf
-
-  - action: run
-    chroot: true
-    description: Installing kernel and mali on rootfs
-    description: Install kernel
+    description: Installing kernel on rootfs
     label: dpkg
-    command: dpkg --force-all -r libegl1-mesa libgbm1 libgles2-mesa libwayland-egl1-mesa libwayland-egl1 && dpkg -i -B /var/tmp/*.deb && rm /var/tmp/* -r
-
-  - action: run
-    chroot: true
-    description: Setting egl libs to use mali
-    script: scripts/enable-mali.sh
+    command: dpkg -i --force-all /var/tmp/*.deb && rm /var/tmp/* -r
 
   - action: run
     chroot: true
