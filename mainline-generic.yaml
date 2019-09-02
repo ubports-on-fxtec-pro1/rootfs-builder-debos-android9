@@ -1,0 +1,43 @@
+{{- $architecture := or .architecture "amd64" -}}
+{{- $image := or .image "ubuntu-touch-mainline-generic-amd64.img" -}}
+
+architecture: {{ $architecture }}
+actions:
+  - action: recipe
+    description: Setup core rootfs
+    recipe: mainline-rootfs-core.yaml
+    varables:
+      architecture: {{ $architecture }}
+
+  - action: run
+    description: Install deps
+    chroot: true
+    script: ./scripts/apt-install.sh grub-pc linux-generic
+
+  - action: image-partition
+    description: Creating image
+    imagename: {{ $image }}
+    imagesize: 4GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: ROOTFS
+    partitions:
+      - name: ROOTFS
+        fs: ext4
+        start: 1M
+        end: 100%
+        flags: [ boot ]
+
+  - action: filesystem-deploy
+    description: Deploying filesystem into image
+
+  - action: run
+    description: Create bmap file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
+
+  - action: run
+    description: Compressing image
+    postprocess: true
+    command: pigz -f9 {{ $image }}

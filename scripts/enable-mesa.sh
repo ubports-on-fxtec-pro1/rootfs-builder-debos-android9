@@ -1,8 +1,19 @@
 #!/bin/sh
 
-# FIXME
-#DEB_HOST_MULTIARCH=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
-DEB_HOST_MULTIARCH="aarch64-linux-gnu"
+ARCH=$(dpkg --print-architecture)
+
+case $ARCH in
+    arm64)
+        DEB_HOST_MULTIARCH="aarch64-linux-gnu"
+        ;;
+    armhf)
+        DEB_HOST_MULTIARCH="arm-linux-gnueabihf"
+        ;;
+    amd64)
+        DEB_HOST_MULTIARCH="x86_64-linux-gnu"
+        ;;
+esac
+
 FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa-egl/ld.so.conf"
 
 if [ ! -f "$FILE" ]; then

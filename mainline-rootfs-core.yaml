@@ -4,7 +4,7 @@ architecture: {{ $architecture }}
 actions:
   - action: download
     description: Download latest ubuntu touch rootfs from CI
-    url: https://ci.ubports.com/job/xenial-mainline-edge-rootfs-arm64/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-arm64-rootfs.tar.gz
+    url: "https://ci.ubports.com/job/xenial-mainline-edge-rootfs-{{ $architecture }}/lastSuccessfulBuild/artifact/out/ubuntu-touch-xenial-edge-{{ $architecture }}-rootfs.tar.gz"
     unpack: false
     filename: ut-rootfs.tar.gz
     name: ut-rootfs.tar.gz
