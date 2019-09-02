@@ -9,6 +9,10 @@ actions:
     varables:
       architecture: {{ $architecture }}
 
+  - action: run
+    description: Disable metadata_csum
+    script: scripts/no-metadatacsum.sh
+
   - action: image-partition
     description: Creating image
     imagename: {{ $image }}
@@ -29,10 +33,6 @@ actions:
         fs: ext4
         start: 200M
         end: 100%
-
-  - action: run
-    description: Disable metadata_csum from root partition
-    script: scripts/no-metadatacsum.sh
 
   - action: filesystem-deploy
     description: Deploying filesystem into image
