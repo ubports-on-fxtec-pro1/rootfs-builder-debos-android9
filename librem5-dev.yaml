@@ -100,7 +100,7 @@ actions:
     chroot: true
     description: Set uart tty
     label: uart
-    command: sed -i 's/ttyS0/ttymxc0/g' /root/etc/init/ttyS0.conf
+    command: sed -i 's/ttyS0/ttymxc0/g' /etc/init/ttyS0.conf
 
   - action: run
     chroot: true
