@@ -56,7 +56,7 @@ actions:
 
   - action: download
     description: Fetch latest kernel ci build
-    url: https://arm01.puri.sm/job/Kernel_builds/job/kernel_devkit_linux-emcraft_imx8-4.18-wip/lastSuccessfulBuild/artifact/output/*zip*/output.zip
+    url: https://gitlab.com/ubports/core/linux/-/jobs/artifacts/librem5-devkit/download?job=build
     name: kernel
     filename: kernel.zip
     unpack: true
@@ -64,7 +64,7 @@ actions:
 
   - action: download
     description: Fetch latest uboot ci build
-    url: https://arm01.puri.sm/job/u-boot_builds/job/uboot_418-devkit_build/lastSuccessfulBuild/artifact/output/uboot-devkit/devkit-boot.img
+    url: https://arm01.puri.sm/job/u-boot_builds/job/uboot_devkit_mainline_atf_build/lastSuccessfulBuild/artifact/output/uboot-devkit/devkit-boot.img
     name: uboot
     filename: uboot.img
 
