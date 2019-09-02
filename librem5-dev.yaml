@@ -92,6 +92,12 @@ actions:
     label: install
     command: export FK_MACHINE="Purism Librem 5 devkit" && dpkg -i /var/tmp/output/*.deb && rm -r /var/tmp/*
 
+  - action: run
+    chroot: true
+    description: Set uart tty
+    label: uart
+    command: sed -i 's/ttyS0/ttymxc0/g' /root/etc/init/ttyS0.conf
+
   - action: raw
     description: Installing bootloader
     origin: uboot
