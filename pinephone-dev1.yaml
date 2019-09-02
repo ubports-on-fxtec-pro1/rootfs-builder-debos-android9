@@ -1,5 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $image := or .image "ubuntu-touch-pinepone-devboard1.img" -}}
+{{- $image := or .image "ubuntu-touch-pinephone-devboard1.img" -}}
 
 architecture: {{ $architecture }}
 actions:
