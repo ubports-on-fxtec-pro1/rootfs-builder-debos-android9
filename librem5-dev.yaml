@@ -10,8 +10,8 @@ actions:
       architecture: {{ $architecture }}
 
   - action: run
-    description: Disable metadata_csum
-    script: scripts/no-metadatacsum.sh
+    description: Copy mke2fs config
+    script: scripts/copy-rootfs-mke2fs.sh
 
   - action: image-partition
     description: Creating image
