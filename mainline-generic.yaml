@@ -9,11 +9,6 @@ actions:
     varables:
       architecture: {{ $architecture }}
 
-  - action: run
-    description: Install deps
-    chroot: true
-    script: ./scripts/apt-install.sh grub-pc linux-generic
-
   - action: image-partition
     description: Creating image
     imagename: {{ $image }}
@@ -29,13 +24,18 @@ actions:
         end: 100%
         flags: [ boot ]
 
+  - action: run
+    description: Install deps
+    chroot: true
+    script: ./scripts/apt-install.sh grub-pc linux-generic
+
   - action: filesystem-deploy
     description: Deploying filesystem into image
 
   - action: run
-    description: Create bmap file
-    postprocess: true
-    command: bmaptool create {{ $image }} > {{ $image }}.bmap
+    description: Install bootloader (grub)
+    chroot: true
+    command: sed -i "s/quiet splash/rw text/g" /etc/default/grub && grub-install /dev/vda && update-grub
 
   - action: run
     description: Compressing image
