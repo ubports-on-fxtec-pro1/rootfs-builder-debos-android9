@@ -30,6 +30,10 @@ actions:
         start: 200M
         end: 100%
 
+  - action: run
+    description: Disable metadata_csum from root partition
+    script: scripts/no-metadatacsum.sh
+
   - action: filesystem-deploy
     description: Deploying filesystem into image
 
