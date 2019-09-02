@@ -15,7 +15,6 @@ case $ARCH in
 esac
 
 FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa-egl/ld.so.conf"
-
 if [ ! -f "$FILE" ]; then
     # Add mesa ld conf since latest does not provide this
     echo "creating and making mesa the default alternatives for "$DEB_HOST_MULTIARCH"_egl_conf"
@@ -24,6 +23,19 @@ if [ ! -f "$FILE" ]; then
 else
     echo "making mesa the default alternatives for "$DEB_HOST_MULTIARCH"_egl_conf"
     update-alternatives --set $DEB_HOST_MULTIARCH"_egl_conf" $FILE
+fi
+
+if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]
+    FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa/ld.so.conf"
+    if [ ! -f "$FILE" ]; then
+        # Add mesa ld conf since latest does not provide this
+        echo "creating and making mesa the default alternatives for "$DEB_HOST_MULTIARCH"_gl_conf"
+        echo "/usr/lib/$DEB_HOST_MULTIARCH/mesa" > $FILE
+        update-alternatives --force --install /etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf ${DEB_HOST_MULTIARCH}_gl_conf $FILE 500
+    else
+        echo "making mesa the default alternatives for "$DEB_HOST_MULTIARCH"_gl_conf"
+        update-alternatives --set $DEB_HOST_MULTIARCH"_gl_conf" $FILE
+    fi
 fi
 
 # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
