@@ -25,7 +25,7 @@ else
     update-alternatives --set $DEB_HOST_MULTIARCH"_egl_conf" $FILE
 fi
 
-if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]
+if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]; then
     FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa/ld.so.conf"
     if [ ! -f "$FILE" ]; then
         # Add mesa ld conf since latest does not provide this
