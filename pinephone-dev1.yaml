@@ -11,7 +11,7 @@ actions:
 
   - action: run
     description: Install firmwares
-    script: script/wget-dpkg.sh http://mirrors.kernel.org/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.181_all.deb
+    script: scripts/wget-dpkg.sh http://mirrors.kernel.org/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.181_all.deb
 
   - action: download
     description: Fetch latest kernel ci build
