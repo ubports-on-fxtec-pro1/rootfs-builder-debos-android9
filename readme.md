@@ -4,7 +4,9 @@ This uses debos to build (sdcard) images for devices
 
 
 Supported devices:
- - PinePhone (dev board 1)
+ - PinePhone (dev board 1) Lima and mali blobs
+ - Librem 5
+ - Generic images (for qemu)
 
 
 To build images locally, run:
