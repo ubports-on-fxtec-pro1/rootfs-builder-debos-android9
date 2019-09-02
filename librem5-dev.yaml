@@ -94,7 +94,7 @@ actions:
     chroot: true
     description: Install kernel
     label: install
-    command: export FK_MACHINE="Purism Librem 5 devkit" && dpkg -i /var/tmp/output/*.deb && rm -r /var/tmp/*
+    command: export FK_MACHINE="Purism Librem 5 devkit" && dpkg -i /var/tmp/*.deb && rm -r /var/tmp/*
 
   - action: run
     chroot: true
