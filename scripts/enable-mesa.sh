@@ -25,6 +25,9 @@ else
     update-alternatives --set $DEB_HOST_MULTIARCH"_egl_conf" $FILE
 fi
 
+# ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
+LDCONFIG_NOTRIGGER=y ldconfig
+
 if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]; then
     FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa/ld.so.conf"
     if [ ! -f "$FILE" ]; then
@@ -36,7 +39,6 @@ if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]; then
         echo "making mesa the default alternatives for "$DEB_HOST_MULTIARCH"_gl_conf"
         update-alternatives --set $DEB_HOST_MULTIARCH"_gl_conf" $FILE
     fi
+    # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
+    LDCONFIG_NOTRIGGER=y ldconfig
 fi
-
-# ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
-LDCONFIG_NOTRIGGER=y ldconfig
