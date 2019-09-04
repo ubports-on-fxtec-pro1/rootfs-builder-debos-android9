@@ -38,6 +38,11 @@ actions:
     command: sed -i "s/quiet splash/rw text/g" /etc/default/grub && grub-install /dev/vda && update-grub
 
   - action: run
+    chroot: true
+    description: Setting egl libs to use mesa (for common rootfs)
+    script: scripts/enable-mesa.sh
+
+  - action: run
     description: Compressing image
     postprocess: true
     command: pigz -f9 {{ $image }}

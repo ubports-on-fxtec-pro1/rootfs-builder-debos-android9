@@ -28,7 +28,7 @@ fi
 # ldconfig needs to be run immediately as we're changing /etc/ld.so.conf.d/ with alternatives.
 LDCONFIG_NOTRIGGER=y ldconfig
 
-if [ -f "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]; then
+if [ -L "/etc/ld.so.conf.d/${DEB_HOST_MULTIARCH}_GL.conf" ]; then
     FILE="/usr/lib/$DEB_HOST_MULTIARCH/mesa/ld.so.conf"
     if [ ! -f "$FILE" ]; then
         # Add mesa ld conf since latest does not provide this
