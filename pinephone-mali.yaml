@@ -3,12 +3,6 @@
 architecture: {{ $architecture }}
 actions:
   - action: download
-    description: Fetch mali blobs
-    url: https://repo.kaidan.im/debpm/pool/non-free/m/mali-utgard-driver/mali-400-wayland-driver_6.2-1_arm64.deb
-    name: mali
-    filename: mali.dpkg
-
-  - action: download
     description: Fetch mali driver
     url: https://gitlab.com/pine64-org/sunxi-mali/-/jobs/artifacts/ubports/download?job=build
     name: malidriver
@@ -22,12 +16,6 @@ actions:
     source: .
     destination: /
 
-  - action: overlay
-    description: Coping mali to rootfs
-    origin: mali
-    source: .
-    destination: /var/tmp/mali.deb
-
     # This needs to be done before update-initramfs (done by installing kernel with dpkg)
   - action: run
     chroot: true
@@ -36,9 +24,9 @@ actions:
 
   - action: run
     chroot: true
-    description: Installing mali on rootfs
+    description: Installing mali driver
     label: dpkg
-    command: dpkg --force-all -r libegl1-mesa libgbm1 libgles2-mesa libwayland-egl1-mesa libwayland-egl1 && dpkg -i -B /var/tmp/*.deb && rm /var/tmp/* -r
+    script: ./scripts/apt-install.sh mali-400-wayland-driver
 
   - action: run
     chroot: true
