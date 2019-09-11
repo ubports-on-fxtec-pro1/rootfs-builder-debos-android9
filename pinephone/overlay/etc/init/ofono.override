@@ -6,4 +6,4 @@ stop on stopping dbus
 expect fork
 respawn
 
-exec ofonod 
+exec ofonod

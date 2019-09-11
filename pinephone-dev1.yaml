@@ -15,6 +15,12 @@ actions:
     chroot: true
     script: scripts/wget-dpkg.sh http://mirrors.kernel.org/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.181_all.deb
 
+  - action: run
+    chroot: true
+    description: Install u-boot-tools
+    label: apt
+    script: scripts/apt-install.sh u-boot-tools
+
   - action: download
     description: Fetch latest kernel ci build
     url: https://gitlab.com/pine64-org/linux/-/jobs/artifacts/pine64-kernel-ubports/download?job=build
@@ -49,19 +55,26 @@ actions:
     chroot: true
     description: Installing kernel on rootfs
     label: dpkg
-    command: dpkg -i --force-all /var/tmp/*.deb && rm /var/tmp/* -r
+    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
 
   - action: run
     chroot: true
     script: scripts/try-depmod-installed.sh
 
-#  - action: run
-#    description: mkimage u-boot scr
-#    command: mkimage -A arm -O linux -T script -C none -n "U-Boot boot script" -d pinephone-dev1/overlay/boot/boot.txt pinephone-dev1/overlay/boot/boot.scr
-
   - action: overlay
-    source: pinephone-dev1/overlay
+    source: pinephone/overlay
     destination: /
+
+  - action: run
+    description: Compile u-boot script
+    chroot: true
+    label: mkimage
+    script: scripts/uboot-compile.sh boot-dontbeevil boot-pinephone boot-pinetab
+
+  - action: run
+    description: Set boot-dontbeevil to default
+    chroot: true
+    command: cp -av /boot/boot-dontbeevil.scr /boot/boot.scr
 
   - action: image-partition
     description: Creating image
