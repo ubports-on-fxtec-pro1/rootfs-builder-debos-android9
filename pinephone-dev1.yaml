@@ -16,6 +16,21 @@ actions:
     chroot: true
     command: cp -av /boot/boot-dontbeevil.scr /boot/boot.scr
 
+  - action: image-partition
+    description: Creating image
+    imagename: {{ $image }}
+    imagesize: 4GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: ROOTFS
+    partitions:
+      - name: ROOTFS
+        fs: ext4
+        start: 1M
+        end: 100%
+        flags: [ boot ]
+
   - action: filesystem-deploy
     description: Deploying filesystem into image
 
