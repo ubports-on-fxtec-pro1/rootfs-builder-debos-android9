@@ -21,8 +21,3 @@ actions:
     chroot: true
     description: Setting egl libs to use mesa (for common rootfs)
     script: scripts/enable-mesa.sh
-
-  - action: run
-    chroot: true
-    description: Apply wayland scale hack
-    command: sed -i "/export QT_WAYLAND_DISABLE_WINDOWDECORATION=1/a export QT_SCALE_FACTOR=2" /usr/bin/ubuntu-touch-session

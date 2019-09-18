@@ -1,5 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $image := or .image "ubuntu-touch-pinephone-devboard1.img" -}}
+{{- $image := or .image "ubuntu-touch-pinephone.img" -}}
 {{- $variant := or .variant "mali" -}}
 
 architecture: {{ $architecture }}
@@ -12,9 +12,9 @@ actions:
       variant: {{ $variant }}
 
   - action: run
-    description: Set boot-dontbeevil to default
+    description: Set boot-pinephone to default
     chroot: true
-    command: cp -av /boot/boot-dontbeevil.scr /boot/boot.scr
+    command: cp -av /boot/boot-pinephone.scr /boot/boot.scr
 
   - action: filesystem-deploy
     description: Deploying filesystem into image

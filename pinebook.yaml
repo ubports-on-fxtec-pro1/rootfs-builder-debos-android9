@@ -1,5 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $image := or .image "ubuntu-touch-pinephone-devboard1.img" -}}
+{{- $image := or .image "ubuntu-touch-pinebook.img" -}}
 {{- $variant := or .variant "mali" -}}
 
 architecture: {{ $architecture }}
@@ -11,18 +11,13 @@ actions:
       architecture: {{ $architecture }}
       variant: {{ $variant }}
 
-  - action: run
-    description: Set boot-dontbeevil to default
-    chroot: true
-    command: cp -av /boot/boot-dontbeevil.scr /boot/boot.scr
-
   - action: filesystem-deploy
     description: Deploying filesystem into image
 
   - action: raw
     description: Installing bootloader
     origin: u-boot
-    source: u-boot-sunxi-with-spl-sopine.bin
+    source: u-boot-sunxi-with-spl-pinebook.bin
     offset: 8192
 
   - action: run
