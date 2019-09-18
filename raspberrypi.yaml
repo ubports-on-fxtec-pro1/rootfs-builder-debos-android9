@@ -1,0 +1,84 @@
+{{- $firmware_version := or .firmware_version "master" -}}
+{{- $architecture := or .architecture "arm64" -}}
+{{- $image := or .image "ubuntu-touch-raspberrypi.img" -}}
+
+architecture: {{ $architecture }}
+actions:
+  - action: recipe
+    description: Setup core rootfs
+    recipe: mainline-rootfs-core-local.yaml
+    varables:
+      architecture: {{ $architecture }}
+
+  - action: run
+    description: Copy mke2fs config
+    script: scripts/copy-rootfs-mke2fs.sh
+
+  - action: download
+    description: Download latest version of the firmware from GitHub
+    url: https://github.com/raspberrypi/firmware/archive/{{ $firmware_version }}.tar.gz
+    unpack: true
+    name: firmware
+
+  - action: image-partition
+    imagename: {{ $image }}
+    imagesize: 4GB
+    partitiontype: msdos
+    mountpoints:
+      - mountpoint: /
+        partition: root
+      - mountpoint: /boot/firmware
+        partition: firmware
+    partitions:
+      - name: firmware
+        fs: fat32
+        start: 0%
+        end: 200MB
+      - name: root
+        fs: ext4
+        start: 200MB
+        end: 100%
+        flags: [ boot ]
+
+  - action: filesystem-deploy
+    description: Deploying filesystem into image
+
+  - action: run
+    chroot: true
+    description: Setting egl libs to use mesa
+    script: scripts/enable-mesa.sh
+
+  - action: overlay
+    origin: firmware
+    source: firmware-{{ $firmware_version }}/boot
+    destination: /boot/firmware
+
+  - action: overlay
+    origin: firmware
+    source: firmware-{{ $firmware_version }}/modules
+    destination: /lib/modules
+
+  - action: run
+    chroot: true
+    command: depmod -a 4.19.73+ && depmod -a 4.19.73-v7+ && depmod -a 4.19.73-v7l+ && depmod -a 4.19.73-v8+
+
+  - action: run
+    chroot: true
+    description: Set uart tty
+    label: uart
+    command: sed -i 's/ttyS0/ttyAMA0/g' /etc/init/ttyS0.conf
+
+  - action: run
+    chroot: true
+    description: Set device name
+    command: mkdir /system && echo "ro.product.device=raspberrypi" > /system/build.prop
+
+  - action: run
+    description: Create bmap file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
+
+  - action: run
+    description: Compressing image
+    postprocess: true
+    command: pigz -f9 {{ $image }}
