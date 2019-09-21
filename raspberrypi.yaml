@@ -58,9 +58,17 @@ actions:
     source: firmware-{{ $firmware_version }}/modules
     destination: /lib/modules
 
+  - action: overlay
+    source: raspberry-pi/
+    destination: /
+
   - action: run
     chroot: true
-    command: depmod -a 4.19.73+ && depmod -a 4.19.73-v7+ && depmod -a 4.19.73-v7l+ && depmod -a 4.19.73-v8+
+    command: depmod -a 4.19.73-v8+
+
+  - action: run
+    chroot: true
+    command: update-initramfs -c -k 4.19.73-v8+ -b /boot/firmware && sed -i 's/initrd.img/initrd.img-4.19.73-v8+/g' /boot/firmware/config.txt
 
   - action: run
     chroot: true
