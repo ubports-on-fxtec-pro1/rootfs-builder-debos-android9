@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Hack my damn network!
-rm -f /etc/resolv.conf
+mv /etc/resolv.conf /etc/resolv2.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
 REPO=$1
@@ -18,3 +18,7 @@ echo "Pin-Priority: $PRI" >> /etc/apt/preferences.d/ubports.pref
 apt update
 apt upgrade -y --allow-downgrades
 apt autoremove -y
+
+# Bring back my damn network
+rm /etc/resolv.conf
+mv /etc/resolv2.conf /etc/resolv.conf

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Hack my damn network!
-rm -f /etc/resolv.conf
+mv /etc/resolv.conf /etc/resolv2.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
 echo "deb http://repo.ubports.com/ xenial_-_edge_-_mesa main" >> /etc/apt/sources.list.d/ubports.list
@@ -24,3 +24,7 @@ apt upgrade -y --allow-downgrades
 apt autoremove -y
 
 apt install ubuntu-touch-session-wayland -y
+
+# Bring back my damn network
+rm /etc/resolv.conf
+mv /etc/resolv2.conf /etc/resolv.conf

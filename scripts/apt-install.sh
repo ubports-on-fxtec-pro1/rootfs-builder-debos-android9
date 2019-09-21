@@ -3,8 +3,12 @@
 # This is a hack to fix the damn network problems with debos/fakemachine
 
 # Hack my damn network!
-rm -f /etc/resolv.conf || true
+mv /etc/resolv.conf /etc/resolv2.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
 apt update
 apt install -y $@
+
+# Bring back my damn network
+rm /etc/resolv.conf
+mv /etc/resolv2.conf /etc/resolv.conf
