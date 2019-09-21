@@ -6,7 +6,7 @@ architecture: {{ $architecture }}
 actions:
   - action: recipe
     description: Setup core rootfs
-    recipe: mainline-rootfs-core-local.yaml
+    recipe: mainline-rootfs-core.yaml
     varables:
       architecture: {{ $architecture }}
 
