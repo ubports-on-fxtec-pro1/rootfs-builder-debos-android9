@@ -102,11 +102,6 @@ actions:
     label: uart
     command: sed -i 's/ttyS0/ttymxc0/g' /etc/init/ttyS0.conf
 
-  - action: run
-    chroot: true
-    description: Set device name
-    command: mkdir /system && echo "ro.product.device=librem5" > /system/build.prop
-
   - action: raw
     description: Installing bootloader
     origin: uboot

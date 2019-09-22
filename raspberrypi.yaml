@@ -77,11 +77,6 @@ actions:
     command: sed -i 's/ttyS0/ttyAMA0/g' /etc/init/ttyS0.conf
 
   - action: run
-    chroot: true
-    description: Set device name
-    command: mkdir /system && echo "ro.product.device=raspberrypi" > /system/build.prop
-
-  - action: run
     description: Create bmap file
     postprocess: true
     command: bmaptool create {{ $image }} > {{ $image }}.bmap
