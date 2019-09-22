@@ -23,7 +23,7 @@ apt update
 apt upgrade -y --allow-downgrades
 apt autoremove -y
 
-apt install ubuntu-touch-session-wayland -y
+apt install ubuntu-touch-session-wayland ubuntu-terminal-app -y
 
 # Bring back my damn network
 rm /etc/resolv.conf
