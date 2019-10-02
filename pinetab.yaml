@@ -7,7 +7,7 @@ actions:
   - action: recipe
     description: Pine64 common
     recipe: pine64-common.yaml
-    varables:
+    variables:
       architecture: {{ $architecture }}
       variant: {{ $variant }}
 

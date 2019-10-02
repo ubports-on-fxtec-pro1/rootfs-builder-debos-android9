@@ -6,7 +6,7 @@ actions:
   - action: recipe
     description: Setup core rootfs
     recipe: mainline-rootfs-core.yaml
-    varables:
+    variables:
       architecture: {{ $architecture }}
 
   - action: run
@@ -40,7 +40,7 @@ actions:
   - action: recipe
     description: Setting up mali
     recipe: pine64-mali.yaml
-    varables:
+    variables:
       architecture: {{ $architecture }}
 {{end}}
 

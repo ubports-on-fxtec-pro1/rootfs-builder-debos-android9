@@ -17,5 +17,5 @@ actions:
   - action: recipe
     description: Applying common mods/hacks
     recipe: mainline-rootfs-mods.yaml
-    varables:
+    variables:
       architecture: {{ $architecture }}

@@ -6,7 +6,7 @@ actions:
   - action: recipe
     description: Setup core rootfs
     recipe: mainline-rootfs-core.yaml
-    varables:
+    variables:
       architecture: {{ $architecture }}
 
   - action: image-partition
