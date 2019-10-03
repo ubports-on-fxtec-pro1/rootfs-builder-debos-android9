@@ -24,7 +24,7 @@ actions:
 
   - action: overlay
     description: Copying linux firmwares to rootfs
-    origin: files/linux-firmware_1.182_all.deb
+    source: files/linux-firmware_1.182_all.deb
     destination: /var/tmp/linux-firmware_1.182_all.deb
 
   - action: run
