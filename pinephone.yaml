@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-pinephone.img" -}}
-{{- $variant := or .variant "mali" -}}
+{{- $variant := or .variant "lima" -}}
 
 architecture: {{ $architecture }}
 actions:

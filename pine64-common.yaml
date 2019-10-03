@@ -1,5 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $variant := or .variant "mali" -}}
+{{- $variant := or .variant "lima" -}}
 
 architecture: {{ $architecture }}
 actions:
