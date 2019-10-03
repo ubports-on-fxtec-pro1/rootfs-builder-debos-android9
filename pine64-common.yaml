@@ -31,6 +31,11 @@ actions:
     unpack: true
     compression: zip
 
+  - action: run
+    chroot: true
+    description: Setting egl libs to use mesa
+    script: scripts/enable-mesa.sh
+
 {{ if eq $variant "mali" }}
   - action: recipe
     description: Setting up mali
