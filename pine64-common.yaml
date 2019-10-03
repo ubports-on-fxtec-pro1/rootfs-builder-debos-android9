@@ -10,11 +10,6 @@ actions:
       architecture: {{ $architecture }}
 
   - action: run
-    description: Install firmwares
-    chroot: true
-    script: scripts/wget-dpkg.sh http://mirrors.kernel.org/ubuntu/pool/main/l/linux-firmware/linux-firmware_1.181_all.deb
-
-  - action: run
     chroot: true
     description: Install u-boot-tools
     label: apt

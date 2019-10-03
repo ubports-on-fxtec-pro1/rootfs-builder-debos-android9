@@ -21,3 +21,14 @@ actions:
     chroot: true
     description: Setting egl libs to use mesa (for common rootfs)
     script: scripts/enable-mesa.sh
+
+  - action: overlay
+    description: Copying linux firmwares to rootfs
+    origin: files/linux-firmware_1.182_all.deb
+    destination: /var/tmp/linux-firmware_1.182_all.deb
+
+  - action: run
+    chroot: true
+    description: Installing linux firmwares
+    label: dpkg
+    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
