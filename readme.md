@@ -4,7 +4,7 @@ This uses debos to build (sdcard) images for devices
 
 
 Supported devices:
- - PinePhone (dev board 1) using lima (can be built with mali blobs also)
+ - Pine64 using lima (can be built with mali blobs also)
     - PinePhone (dev board and final version)
     - PineTab
     - PineBook
