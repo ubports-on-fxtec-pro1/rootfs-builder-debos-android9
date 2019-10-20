@@ -1,4 +1,4 @@
-{{- $firmware_version := or .firmware_version "master" -}}
+{{- $firmware_version := or .firmware_version "9f4983548584d4f70e6eec5270125de93a081483" -}}
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-raspberrypi.img" -}}
 
@@ -64,11 +64,11 @@ actions:
 
   - action: run
     chroot: true
-    command: depmod -a 4.19.73-v8+
+    command: depmod -a 4.19.79-v8+
 
   - action: run
     chroot: true
-    command: update-initramfs -c -k 4.19.73-v8+ -b /boot/firmware && sed -i 's/initrd.img/initrd.img-4.19.73-v8+/g' /boot/firmware/config.txt
+    command: update-initramfs -c -k 4.19.79-v8+ -b /boot/firmware && sed -i 's/initrd.img/initrd.img-4.19.79-v8+/g' /boot/firmware/config.txt
 
   - action: run
     chroot: true
