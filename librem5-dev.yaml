@@ -54,9 +54,11 @@ actions:
 
   - action: download
     description: Fetch flash kernel
-    url: https://arm01.puri.sm/job/debs/job/deb-flash-kernel-buster-aarch64/lastSuccessfulBuild/artifact/flash-kernel_3.99pureos+libre5.2%7E1189.gbp6a4ef2_arm64.deb
+    url: https://arm01.puri.sm/job/debs/job/deb-flash-kernel-buster-aarch64/lastSuccessfulBuild/artifact/*zip*/archive.zip
     name: flash
-    filename: flash.deb
+    filename: flash.zip
+    unpack: true
+    compression: zip
 
   - action: download
     description: Fetch latest kernel ci build
@@ -76,7 +78,7 @@ actions:
     description: Copying flash kernel to rootfs
     origin: flash
     source: .
-    destination: /var/tmp/flash.deb
+    destination: /var/tmp/
 
   - action: overlay
     description: Copying kernel to rootfs
@@ -88,7 +90,7 @@ actions:
     chroot: true
     description: Install flash kernel
     label: install
-    command: mkdir -p /boot/dtbs && dpkg -i /var/tmp/flash.deb
+    command: mkdir -p /boot/dtbs && dpkg -i /var/tmp/archive/*.deb
 
   - action: run
     chroot: true
