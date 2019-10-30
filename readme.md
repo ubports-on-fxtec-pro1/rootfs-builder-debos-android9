@@ -37,6 +37,7 @@ space issues if you do.
 
 
 If this is not working...
+
 Prerequisites
 -------------
 
@@ -90,8 +91,4 @@ git clone https://gitlab.com/ubports/core/rootfs-builder-debos.git
 cd rootfs-builder-debos
 debos-docker -m 5G <device>.yaml
 For raspberry pi this means 
-debos-docker -m 5G raspberrypi.yaml
-debos-docker -m 5G <device>.yaml
-
-Example of device is raspberrypi. So this ends up in:
 debos-docker -m 5G raspberrypi.yaml
