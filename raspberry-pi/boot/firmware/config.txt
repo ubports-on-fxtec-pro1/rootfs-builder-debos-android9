@@ -61,7 +61,9 @@ dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
 
 [all]
+# Enable DRM VC4 V3D driver on top of the dispmanx display stack
 dtoverlay=vc4-fkms-v3d
-
+# 
 ramfsfile=initrd.img
+# Enable 64 bit
 arm_64bit=1
