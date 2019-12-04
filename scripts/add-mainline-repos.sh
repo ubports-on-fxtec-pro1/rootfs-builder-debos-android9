@@ -26,7 +26,7 @@ apt update
 apt upgrade -y --allow-downgrades
 apt autoremove -y
 
-apt install ubuntu-touch-session-wayland ubuntu-terminal-app -y
+apt install ubuntu-touch-session-wayland libgbm1 libgl1-mesa-dri -y
 
 # Bring back my damn network
 rm /etc/resolv.conf
