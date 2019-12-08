@@ -16,6 +16,10 @@ actions:
     chroot: true
     command: cp -av /boot/boot-pinephone.scr /boot/boot.scr
 
+  - action: pinephone-overlay
+    source: pine64/pinephone
+    destination: /
+
   - action: image-partition
     description: Creating image
     imagename: {{ $image }}
