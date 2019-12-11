@@ -45,7 +45,7 @@ actions:
   - action: run
     description: Install bootloader (grub)
     chroot: true
-    command: sed -i "s/quiet splash/rw text/g" /etc/default/grub && grub-install /dev/vda && update-grub
+    command: sed -i "s/quiet splash/rw/g" /etc/default/grub && grub-install /dev/vda && update-grub
 
   - action: run
     chroot: true
