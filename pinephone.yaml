@@ -16,7 +16,7 @@ actions:
     chroot: true
     command: cp -av /boot/boot-pinephone.scr /boot/boot.scr
 
-  - action: pinephone-overlay
+  - action: overlay
     source: pine64/pinephone
     destination: /
 
