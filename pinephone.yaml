@@ -14,7 +14,7 @@ actions:
   - action: run
     description: Add old mesa
     chroot: true
-    command: scripts/add-and-pin-repo.sh xenial_-_edge_-_mesa_-_old 2004
+    script: scripts/add-and-pin-repo.sh xenial_-_edge_-_mesa_-_old 2004
 
   - action: run
     chroot: true
