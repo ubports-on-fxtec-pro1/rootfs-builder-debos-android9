@@ -17,6 +17,11 @@ actions:
     command: ./scripts/add-and-pin-repo.sh xenial_-_edge_-_mesa_-_old 2004
 
   - action: run
+    chroot: true
+    description: Setting egl libs to use mesa
+    script: scripts/enable-mesa.sh
+
+  - action: run
     description: Set boot-pinephone to default
     chroot: true
     command: cp -av /boot/boot-pinephone.scr /boot/boot.scr
