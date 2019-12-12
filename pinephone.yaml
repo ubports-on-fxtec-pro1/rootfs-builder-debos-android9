@@ -12,6 +12,11 @@ actions:
       variant: {{ $variant }}
 
   - action: run
+    description: Add old mesa
+    chroot: true
+    command: ./scripts/add-and-pin-repo.sh xenial_-_edge_-_mesa_-_old 2004
+
+  - action: run
     description: Set boot-pinephone to default
     chroot: true
     command: cp -av /boot/boot-pinephone.scr /boot/boot.scr
