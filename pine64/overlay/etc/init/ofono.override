@@ -21,6 +21,11 @@ pre-start script
 	( echo 1 > /sys/class/gpio/gpio35/value && sleep 2 && echo 0 > /sys/class/gpio/gpio35/value ) || return 1
 end script
 
+post-start script
+	/usr/share/ofono/scripts/enable-modem
+	/usr/share/ofono/scripts/online-modem
+end script
+
 post-stop script
 	echo "Disabling EG25 WWAN module"
 	echo 1 > /sys/class/gpio/gpio68/value

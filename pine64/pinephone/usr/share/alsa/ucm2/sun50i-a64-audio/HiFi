@@ -21,6 +21,7 @@ SectionDevice."Speaker" {
 	Comment "Internal speaker"
 	EnableSequence [
 		cset "name='Line Out Playback Switch' on"
+		cset "name='Line Out Playback Volume' 100%"
 	]
 
 	DisableSequence [
@@ -39,6 +40,7 @@ SectionDevice."Earpiece" {
 	Comment "Internal Earpiece"
 	EnableSequence [
 		cset "name='Earpiece Playback Switch' on"
+		cset "name='Earpiece Playback Volume' 100%"
 	]
 
 	DisableSequence [
@@ -95,6 +97,7 @@ SectionDevice."Headphone" {
 	Comment "Headset"
 	EnableSequence [
 		cset "name='Headphone Playback Switch' on"
+		cset "name='Headphone Playback Volume' 40%"
 	]
 
 	DisableSequence [
@@ -109,4 +112,3 @@ SectionDevice."Headphone" {
 		PlaybackPCM "hw:${CardId},0"
 	}
 }
-
