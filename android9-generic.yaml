@@ -1,0 +1,51 @@
+{{- $architecture := or .architecture "armhf" -}}
+{{- $image := or .image "ubuntu-touch-android9-armhf.tar.gz" -}}
+
+architecture: {{ $architecture }}
+actions:
+  - action: download
+    description: Download latest ubuntu touch rootfs from CI
+    url: "https://ci.ubports.com/job/xenial-hybris-edge-rootfs-{{ $architecture }}/lastSuccessfulBuild/artifact/out/ubuntu-touch-hybris-xenial-edge-{{ $architecture }}-rootfs.tar.gz"
+    unpack: false
+    filename: ut-rootfs.tar.gz
+    name: ut-rootfs.tar.gz
+
+  - action: unpack
+    description: Unpacking rootfs
+    origin: ut-rootfs.tar.gz
+    compression: gz
+
+  - action: overlay
+    source: android9/overlay
+    description: Adding Android 9 base specific overlay
+    destination: /
+
+  - action: run
+    chroot: true
+    description: Adding Android 8/9 packages
+    script: scripts/add-android8-repos.sh
+
+  - action: run
+    chroot: true
+    description: Create directories for Android mounts
+    command: mkdir -p /android /data /system /system_root /vendor /cache /mnt/vendor/persist /userdata
+
+  - action: run
+    chroot: true
+    description: Remove udev override used in Halium setup
+    command: rm /etc/init/udev.override
+
+  - action: run
+    chroot: true
+    description: Enable SSH and USB network
+    command: sed -i 's/PasswordAuthentication=no/PasswordAuthentication=yes/g' /etc/init/ssh.override && sed -i 's/manual/start on startup/g' /etc/init/ssh.override && sed -i 's/manual/start on startup/g' /etc/init/usb-tethering.conf
+
+  - action: run
+    chroot: true
+    description: Setting password on phablet user
+    command: echo phablet:phablet | chpasswd
+
+  - action: pack
+    description: Compressing image
+    file: {{ $image }}
+    compression: gz
