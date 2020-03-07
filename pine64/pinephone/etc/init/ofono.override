@@ -22,8 +22,7 @@ pre-start script
 end script
 
 post-start script
-	/usr/share/ofono/scripts/enable-modem
-	/usr/share/ofono/scripts/online-modem
+    /usr/bin/enable-modem
 end script
 
 post-stop script
