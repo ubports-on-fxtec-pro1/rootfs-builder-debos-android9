@@ -1,6 +1,7 @@
 {{- $firmware_version := or .firmware_version "master" -}}
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-raspberrypi.img" -}}
+{{- $debug := or .debug "on" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -11,6 +12,7 @@ actions:
     recipe: mainline-rootfs-core.yaml
     variables:
       architecture: {{ $architecture }}
+      debug: {{ $debug }}
 
 # cp root/etc/mke2fs.conf /etc/mke2fs.conf
   - action: run

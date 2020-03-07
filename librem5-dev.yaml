@@ -1,5 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-librem5-dev.img" -}}
+{{- $debug := or .debug "on" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -8,6 +9,7 @@ actions:
     recipe: mainline-rootfs-core.yaml
     variables:
       architecture: {{ $architecture }}
+      debug: {{ $debug }}
 
   - action: run
     description: Copy mke2fs config

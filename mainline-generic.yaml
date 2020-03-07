@@ -1,5 +1,6 @@
 {{- $architecture := or .architecture "amd64" -}}
 {{- $image := or .image "ubuntu-touch-mainline-generic-amd64.img" -}}
+{{- $debug := or .debug "on" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -8,6 +9,7 @@ actions:
     recipe: mainline-rootfs-core.yaml
     variables:
       architecture: {{ $architecture }}
+      debug: {{ $debug }}
 
   - action: image-partition
     description: Creating image

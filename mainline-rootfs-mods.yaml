@@ -1,4 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
+{{- $debug := or .debug "off" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -7,10 +8,12 @@ actions:
     description: Adding mods overlay
     destination: /
 
+{{ if eq $debug "on" }}
   - action: run
     chroot: true
     description: Setting password on phablet user
     command: echo phablet:phablet | chpasswd
+{{ end }}
 
   - action: run
     chroot: true

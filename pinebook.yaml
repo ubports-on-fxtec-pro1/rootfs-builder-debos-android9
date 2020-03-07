@@ -1,6 +1,7 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $image := or .image "ubuntu-touch-pinebook.img" -}}
 {{- $variant := or .variant "lima" -}}
+{{- $debug := or .debug "off" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -10,6 +11,7 @@ actions:
     variables:
       architecture: {{ $architecture }}
       variant: {{ $variant }}
+      debug: {{ $debug }}
 
   - action: image-partition
     description: Creating image

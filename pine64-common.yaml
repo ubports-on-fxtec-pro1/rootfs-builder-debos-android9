@@ -1,5 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $variant := or .variant "lima" -}}
+{{- $debug := or .debug "off" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -8,6 +9,7 @@ actions:
     recipe: mainline-rootfs-core.yaml
     variables:
       architecture: {{ $architecture }}
+      debug: {{ $debug }}
 
   - action: run
     chroot: true

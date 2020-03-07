@@ -1,4 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
+{{- $debug := or .debug "off" -}}
 
 architecture: {{ $architecture }}
 actions:
@@ -19,3 +20,4 @@ actions:
     recipe: mainline-rootfs-mods.yaml
     variables:
       architecture: {{ $architecture }}
+      debug: {{ $debug }}
