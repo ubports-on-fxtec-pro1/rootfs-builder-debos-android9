@@ -16,6 +16,10 @@ actions:
     chroot: true
     command: cp -av /boot/boot-pinetab.scr /boot/boot.scr
 
+  - action: overlay
+    source: pine64/pinetab
+    destination: /
+
   - action: image-partition
     description: Creating image
     imagename: {{ $image }}
