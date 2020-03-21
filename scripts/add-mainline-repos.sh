@@ -33,7 +33,7 @@ apt update
 apt upgrade -y --allow-downgrades
 apt autoremove -y
 
-apt install ubuntu-touch-session-wayland libgbm1 libgl1-mesa-dri -y
+apt install ubuntu-touch-session-wayland libgbm1 libgl1-mesa-dri hfd-service libqt5feedback5-hfd -y
 
 # Bring back my damn network
 rm /etc/resolv.conf
