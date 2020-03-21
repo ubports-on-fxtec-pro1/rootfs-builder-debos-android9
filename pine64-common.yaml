@@ -52,9 +52,14 @@ actions:
     source: .
     destination: /var/tmp/
 
+  - action: overlay
+    description: Copying linux firmwares to rootfs
+    source: files/firmware-rtl8723cs_1.0-0_all.deb
+    destination: /var/tmp/firmware-rtl8723cs_1.0-0_all.deb
+
   - action: run
     chroot: true
-    description: Installing kernel on rootfs
+    description: Installing kernel and firmwares on rootfs
     label: dpkg
     command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
 
