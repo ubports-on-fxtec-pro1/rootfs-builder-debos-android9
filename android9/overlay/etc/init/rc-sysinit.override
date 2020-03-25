@@ -1,1 +1,12 @@
-/etc/init/rc-sysinit.override
+env DEFAULT_RUNLEVEL=2
+
+script
+    # Do not check kernel command-line as it is not very useful on Android
+    # devices and breaks boot on some
+
+    # Run the system initialisation scripts
+    [ -n "${FROM_SINGLE_USER_MODE}" ] || /etc/init.d/rcS
+
+    # Switch into the default runlevel
+    telinit "${DEFAULT_RUNLEVEL}"
+end script
