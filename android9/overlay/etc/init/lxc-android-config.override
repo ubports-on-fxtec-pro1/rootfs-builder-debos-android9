@@ -1,0 +1,4 @@
+# start lxc-android-config after mount-android finished
+start on (cgmanager-ready
+   and started cgroup-lite
+   and started mount-android)
