@@ -2,3 +2,14 @@
 start on (cgmanager-ready
    and started cgroup-lite
    and started mount-android)
+
+pre-start script
+    if [ ! -d /sys/fs/cgroup/systemd ]; then
+        mkdir -p /sys/fs/cgroup/systemd
+        mount -t cgroup cgroup /sys/fs/cgroup/systemd -o name=systemd
+    fi
+    while ! mountpoint -q -- /vendor
+    do
+        sleep 1
+    done
+end script
