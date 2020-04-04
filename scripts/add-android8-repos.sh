@@ -18,7 +18,7 @@ echo "Pin-Priority: 2000" >> /etc/apt/preferences.d/ubports.pref
 apt update
 apt upgrade -y --allow-downgrades
 
-apt install pulseaudio-modules-droid-28
+apt install -y bluebinder ofono-ril-binder-plugin pulseaudio-modules-droid-28
 
 # Restore symlink
 rm /etc/resolv.conf
