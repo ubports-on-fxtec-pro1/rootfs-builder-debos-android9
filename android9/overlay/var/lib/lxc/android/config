@@ -21,5 +21,6 @@ lxc.mount.entry = /dev/socket dev/socket bind bind,create=dir 0 0
 lxc.mount.entry = proc proc proc nodev,noexec,nosuid 0 0
 lxc.mount.entry = sys sys sysfs nodev,noexec,nosuid 0 0
 #lxc.mount.entry = tmp tmp tmpfs nodev,noexec,nosuid 0 0
+lxc.mount.entry = /android/data data bind bind 0 0
 lxc.mount.entry = /vendor vendor bind rbind 0 0
 lxc.mount.entry = /mnt mnt bind rbind 0 0
