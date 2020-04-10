@@ -19,6 +19,9 @@ apt update
 apt upgrade -y --allow-downgrades
 
 apt install -y bluebinder ofono-ril-binder-plugin pulseaudio-modules-droid-28
+# sensorfw
+apt remove -y qtubuntu-sensors
+apt install -y libsensorfw-qt5-hybris libsensorfw-qt5-configs libsensorfw-qt5-plugins libqt5sensors5-sensorfw
 
 # Restore symlink
 rm /etc/resolv.conf

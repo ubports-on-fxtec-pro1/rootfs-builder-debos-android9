@@ -1,0 +1,4 @@
+description "sensorfw service"
+
+start on started dbus and android
+stop on stopping dbus
