@@ -46,12 +46,9 @@ actions:
     source: u-boot-sunxi-with-spl-sopine.bin
     offset: 8192
 
-  - action: run
-    description: Create bmap file
-    postprocess: true
-    command: bmaptool create {{ $image }} > {{ $image }}.bmap
-
-  - action: run
-    description: Compressing image
-    postprocess: true
-    command: pigz -f9 {{ $image }}
+  - action: recipe
+    description: Polish the image
+    recipe: polish.yaml
+    variables:
+      architecture: {{ $architecture }}
+      image: {{ $image }}

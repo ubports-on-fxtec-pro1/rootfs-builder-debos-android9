@@ -61,3 +61,10 @@ actions:
     description: Compressing image
     postprocess: true
     command: pigz -f9 {{ $image }}
+
+  - action: recipe
+    description: Polish the image
+    recipe: polish.yaml
+    variables:
+      architecture: {{ $architecture }}
+      image: {{ $image }}
