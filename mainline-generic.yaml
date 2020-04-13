@@ -7,9 +7,12 @@ actions:
   - action: recipe
     description: Setup core rootfs
     recipe: mainline-rootfs-core.yaml
+
+  - action: recipe
+    description: Add linux-firmware package
+    recipe: mainline-rootfs-firmware.yaml
     variables:
       architecture: {{ $architecture }}
-      debug: {{ $debug }}
 
   - action: image-partition
     description: Creating image

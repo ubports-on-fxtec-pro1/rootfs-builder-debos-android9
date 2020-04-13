@@ -6,13 +6,19 @@
 architecture: {{ $architecture }}
 actions:
 # Include mainline-rootfs-core.yaml and in that file mainline-rootfs-mods.yaml is included
-# In mainline-rootfs-mods.yaml the linux-firmware_1.183.1_all.deb or newer version is installed.
   - action: recipe
     description: Setup core rootfs
     recipe: mainline-rootfs-core.yaml
     variables:
       architecture: {{ $architecture }}
       debug: {{ $debug }}
+
+  # Add the linux-firmware package
+  - action: recipe
+    description: Setup core rootfs
+    recipe: mainline-rootfs-firmware.yaml
+    variables:
+      architecture: {{ $architecture }}
 
 # cp root/etc/mke2fs.conf /etc/mke2fs.conf
   - action: run
