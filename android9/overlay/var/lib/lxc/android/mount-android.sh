@@ -45,6 +45,17 @@ if [ -e $sys_vendor ]; then
     mount $path /vendor -t $type -o $options
 fi
 
+sys_persist="/sys/firmware/devicetree/base/firmware/android/fstab/persist"
+if [ -e $sys_persist ]; then
+    label=$(cat $sys_persist/dev | awk -F/ '{print $NF}')
+    path=$(find_partition_path $label)
+    # [ ! -e "$path" ] && exit "Error persist not found"
+    type=$(cat $sys_persist/type)
+    options=$(parse_mount_flags $(cat $sys_persist/mnt_flags))
+    echo "mounting $path as /mnt/vendor/persist"
+    mount $path /mnt/vendor/persist -t $type -o $options
+fi
+
 # Assume there's only one fstab in vendor
 fstab=$(ls /vendor/etc/fstab*)
 [ ! -e "$fstab" ] && echo "fstab not found" && exit
