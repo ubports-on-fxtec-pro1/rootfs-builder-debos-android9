@@ -10,6 +10,7 @@ actions:
     variables:
       architecture: {{ $architecture }}
       debug: {{ $debug }}
+      imagesuffix: "-edge-pine"
 
   - action: run
     chroot: true
@@ -52,16 +53,25 @@ actions:
     source: .
     destination: /var/tmp/
 
-  - action: overlay
-    description: Copying linux firmwares to rootfs
-    source: files/firmware-rtl8723cs_1.0-0_all.deb
-    destination: /var/tmp/firmware-rtl8723cs_1.0-0_all.deb
+{{ if eq $debug "on" }}
+  - action: run
+    chroot: true
+    description: Installing kernel on rootfs (with debug packages)
+    label: dpkg
+    command: dpkg -i /var/tmp/*.deb && /bin/rm /var/tmp/* -r
+{{ else }}
+  - action: run
+    chroot: true
+    description: Installing kernel on rootfs (no debug packages)
+    label: dpkg
+    command: dpkg -i /var/tmp/linux-image*pine64_*.deb
+{{ end }}
 
   - action: run
     chroot: true
-    description: Installing kernel and firmwares on rootfs
-    label: dpkg
-    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r
+    description: Installing WLAN/BT firmware on rootfs
+    label: apt
+    command: apt install -y linux-firmware-rtlwifi linux-firmware-pine64-rtl8723-bt
 
   - action: run
     chroot: true

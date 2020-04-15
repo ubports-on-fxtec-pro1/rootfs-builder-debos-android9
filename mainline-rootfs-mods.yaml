@@ -24,17 +24,3 @@ actions:
     chroot: true
     description: Setting egl libs to use mesa (for common rootfs)
     script: scripts/enable-mesa.sh
-
-# Copy linux-firmware_1.183.1_all.deb from the files directory, to temp location 
-# source: http://turul.canonical.com/pool/main/l/linux-firmware/
-  - action: overlay
-    description: Copying linux firmwares to rootfs
-    source: files/linux-firmware_1.183.1_all.deb
-    destination: /var/tmp/linux-firmware_1.183.1_all.deb
-
-# Install the linux firmware deb package
-  - action: run
-    chroot: true
-    description: Installing linux firmwares
-    label: dpkg
-    command: dpkg -i /var/tmp/*.deb && rm /var/tmp/* -r

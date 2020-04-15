@@ -1,0 +1,15 @@
+{{- $architecture := or .architecture "amd64" -}}
+{{- $image := or .image "pleasesetimage" -}}
+# Common final steps to complete image files
+
+architecture: {{ $architecture }}
+actions:
+  - action: run
+    description: Remove apt caches to save space
+    chroot: true
+    command: rm -r /var/cache/apt/*
+
+  - action: run
+    description: Create bmap file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
