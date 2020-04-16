@@ -71,7 +71,7 @@ actions:
     chroot: true
     description: Installing WLAN/BT firmware on rootfs
     label: apt
-    command: apt install -y linux-firmware-rtlwifi linux-firmware-pine64-rtl8723-bt
+    script: scripts/apt-install.sh linux-firmware-rtlwifi linux-firmware-pine64-rtl8723-bt
 
   - action: run
     chroot: true
