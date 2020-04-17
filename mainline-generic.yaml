@@ -57,11 +57,6 @@ actions:
     description: Setting egl libs to use mesa (for common rootfs)
     script: scripts/enable-mesa.sh
 
-  - action: run
-    description: Compressing image
-    postprocess: true
-    command: pigz -f9 {{ $image }}
-
   - action: recipe
     description: Polish the image
     recipe: polish.yaml
