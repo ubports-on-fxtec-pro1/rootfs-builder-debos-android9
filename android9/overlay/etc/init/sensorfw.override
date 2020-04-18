@@ -1,4 +1,7 @@
+
 description "sensorfw service"
 
 start on started dbus and android
 stop on stopping dbus
+
+exec /usr/sbin/sensorfwd --config-file=/etc/device-info/sensorfw/hybris.conf --log-level=warning --no-magnetometer-bg-calibration
