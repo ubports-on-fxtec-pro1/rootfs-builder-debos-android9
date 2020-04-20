@@ -33,6 +33,16 @@ actions:
     filename: build.zip
     unpack: true
     compression: zip
+    
+  - action: overlay
+    source: pine64/overlay
+    destination: /
+    
+  - action: run
+    chroot: true
+    description: Install flash-kernel
+    label: apt
+    script: scripts/apt-install.sh flash-kernel
 
   - action: run
     chroot: true
@@ -76,13 +86,3 @@ actions:
   - action: run
     chroot: true
     script: scripts/try-depmod-installed.sh
-
-  - action: overlay
-    source: pine64/overlay
-    destination: /
-
-  - action: run
-    description: Compile u-boot script
-    chroot: true
-    label: mkimage
-    script: scripts/uboot-compile.sh boot-dontbeevil boot-pinephone boot-pinetab boot
