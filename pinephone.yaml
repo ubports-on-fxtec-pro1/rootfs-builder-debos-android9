@@ -41,12 +41,12 @@ actions:
     source: u-boot-sunxi-with-spl-sopine.bin
     offset: 8192
 
-  - action: run
-    chroot: true
-    description: flash-kernel
-    label: dpkg
-    command: flash-kernel
-    
+  - action: recipe
+    description: Common Pine64 end-of-image tasks
+    recipe: pine64-common-end.yaml
+    variables:
+      architecture: {{ $architecture }}
+
   - action: recipe
     description: Polish the image
     recipe: polish.yaml

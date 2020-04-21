@@ -37,12 +37,6 @@ actions:
   - action: overlay
     source: pine64/overlay
     destination: /
-    
-  - action: run
-    chroot: true
-    description: Install flash-kernel
-    label: apt
-    script: scripts/apt-install.sh flash-kernel
 
   - action: run
     chroot: true
