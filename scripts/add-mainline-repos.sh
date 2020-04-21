@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Hack my damn network!
+# Work around resolver failure in debos' fakemachine
 mv /etc/resolv.conf /etc/resolv2.conf
 echo "nameserver 1.1.1.1" > /etc/resolv.conf
 
@@ -35,6 +35,6 @@ apt autoremove -y
 
 apt install ubuntu-touch-session-wayland libgbm1 libgl1-mesa-dri hfd-service libqt5feedback5-hfd -y
 
-# Bring back my damn network
+# Undo changes to work around debos fakemachine resolver
 rm /etc/resolv.conf
 mv /etc/resolv2.conf /etc/resolv.conf
