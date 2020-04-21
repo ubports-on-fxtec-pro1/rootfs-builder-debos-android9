@@ -9,6 +9,14 @@ actions:
     chroot: true
     command: rm -r /var/cache/apt/*
 
+  # This must be the final 'chroot: true' action in the recipe, or else
+  # /etc/localtime will be deleted by systemd-nspawn.
+  # See https://github.com/go-debos/debos/issues/180
+  - action: run
+    chroot: true
+    description: Set up /etc/writable links for timezone and friends
+    script: scripts/etc-writable.sh
+
   - action: run
     description: Create bmap file
     postprocess: true
