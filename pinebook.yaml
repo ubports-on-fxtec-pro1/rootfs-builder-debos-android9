@@ -13,6 +13,10 @@ actions:
       variant: {{ $variant }}
       debug: {{ $debug }}
 
+  - action: overlay
+    source: pine64/pinebook
+    destination: /
+
   - action: image-partition
     description: Creating image
     imagename: {{ $image }}
@@ -36,6 +40,12 @@ actions:
     origin: u-boot
     source: u-boot-sunxi-with-spl-pinebook.bin
     offset: 8192
+
+  - action: recipe
+    description: Common Pine64 end-of-image tasks
+    recipe: pine64-common-end.yaml
+    variables:
+      architecture: {{ $architecture }}
 
   - action: recipe
     description: Polish the image

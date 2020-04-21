@@ -1,0 +1,4 @@
+Some configuration in this folder is created as part of the image build
+process. Learn more at UBports' rootfs-builder-debos repository.
+
+This configuration was created by the PineBook overlay.

@@ -1,0 +1,15 @@
+{{- $architecture := or .architecture "arm64" -}}
+# Common tasks which go at the end of a pine64 image
+
+architecture: {{ $architecture }}
+actions:
+  - action: run
+    chroot: true
+    description: Install flash-kernel
+    label: apt
+    script: scripts/apt-install.sh flash-kernel
+
+  - action: run
+    description: Set up u-boot bootscripts with flash-kernel
+    chroot: true
+    command: flash-kernel

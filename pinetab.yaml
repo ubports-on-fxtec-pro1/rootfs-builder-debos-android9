@@ -13,11 +13,6 @@ actions:
       variant: {{ $variant }}
       debug: {{ $debug }}
 
-  - action: run
-    description: Set boot-pinetab to default
-    chroot: true
-    command: cp -av /boot/boot-pinetab.scr /boot/boot.scr
-
   - action: overlay
     source: pine64/pinetab
     destination: /
@@ -45,6 +40,12 @@ actions:
     origin: u-boot
     source: u-boot-sunxi-with-spl-sopine.bin
     offset: 8192
+
+  - action: recipe
+    description: Common Pine64 end-of-image tasks
+    recipe: pine64-common-end.yaml
+    variables:
+      architecture: {{ $architecture }}
 
   - action: recipe
     description: Polish the image

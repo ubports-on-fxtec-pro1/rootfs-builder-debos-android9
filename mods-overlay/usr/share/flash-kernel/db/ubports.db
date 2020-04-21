@@ -1,0 +1,18 @@
+# This file is part of rootfs-builder-debos
+Machine: Pine64 PinePhone Braveheart (1.1)
+Boot-Script-Path: /boot/boot.scr
+DTB-Id: allwinner/sun50i-a64-pinephone-1.1.dtb
+U-Boot-Script-Name: bootscr.pinephone
+Required-Packages: u-boot-tools
+
+Machine: Pine64 PineTab (1.0)
+Boot-Script-Path: /boot/boot.scr
+DTB-Id: allwinner/sun50i-a64-pinetab.dtb
+U-Boot-Script-Name: bootscr.pinetab
+Required-Packages: u-boot-tools
+
+Machine: Pine64 PineBook
+Boot-Script-Path: /boot/boot.scr
+DTB-Id: allwinner/sun50i-a64-pinebook.dtb
+U-Boot-Script-Name: bootscr.pinebook
+Required-Packages: u-boot-tools
