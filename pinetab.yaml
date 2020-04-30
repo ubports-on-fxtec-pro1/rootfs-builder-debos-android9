@@ -38,7 +38,7 @@ actions:
   - action: raw
     description: Installing bootloader
     origin: u-boot
-    source: u-boot-sunxi-with-spl-sopine.bin
+    source: u-boot-sunxi-with-spl-pinetab.bin
     offset: 8192
 
   - action: recipe
