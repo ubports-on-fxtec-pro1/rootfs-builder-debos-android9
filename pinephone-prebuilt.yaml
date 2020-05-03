@@ -1,0 +1,174 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $image := or .image "ubuntu-touch-pinephone.img" -}}
+
+# Creates a prebuilt system-image capable image
+
+# Looking at this recipe, you may be asking yourself "why is this even a debos
+# recipe?"
+# That is a very good question.
+
+architecture: {{ $architecture }}
+actions:
+  - action: run
+    description: Mount tmpfs as '/' as far as debos is concerned
+    command: mkdir mnt && mount -t tmpfs tmpfs mnt/
+
+  - action: image-partition
+    description: Creating image
+    imagename: {{ $image }}
+    imagesize: 14.6GiB
+    partitiontype: gpt
+    mountpoints:
+      - mountpoint: /cache
+        partition: cache
+
+      - mountpoint: /data
+        partition: userdata
+
+    partitions:
+      - name: loader
+        fs: none
+        start: 131072B
+        end: 2097K
+
+      - name: scr
+        fs: none
+        start: 2098K
+        end: 3146K
+        flags: [ legacy_boot ]
+
+      - name: persist
+        fs: ext2
+        start: 3147K
+        end: 11.5M
+
+      - name: boot_a
+        fs: none
+        start: 11.6M
+        end: 78.6M
+
+      - name: boot_b
+        fs: none
+        start: 78.7M
+        end: 146M
+
+      - name: recovery_a
+        fs: none
+        start: 146M
+        end: 213M
+
+      - name: recovery_b
+        fs: none
+        start: 213M
+        end: 280M
+
+      # Future second system partition
+      - name: cache
+        fs: ext2
+        start: 280M
+        end: 2840M
+
+      - name: system
+        fs: ext4
+        start: 2840M
+        end: 5400M
+
+      - name: userdata
+        fs: ext4
+        start: 5400M
+        end: 100%
+
+  - action: run
+    description: Manually set resolver in the container
+    chroot: false
+    command: mv /etc/resolv.conf /etc/resolv2.conf && echo "nameserver 1.1.1.1" > /etc/resolv.conf
+
+  - action: run
+    description: create directory to store ubuntu_command file and installable tarballs
+    chroot: false
+    command: mkdir mnt/cache/recovery/
+
+  - action: run
+    description: Download system tarball
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/pool/ubports-b69557c95307f6f4e5e0b6a10f9f4511aaa5e89a361ee7ce15afbf6dbcf52db4.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: Download device tarball
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/pool/device-537c732579e270b183b0fa3570ab980be0786cdb829b13854d88b99c8ab1eed3.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: Download keyring
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/pool/keyring-4c4e7ef380ebcfa2c31084efa199138e93bfed8fc58aa3eb06bdf75a78af9b57.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: Download version overlay
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/16.04/arm64/pine/pinephone/version-2.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: Download image-signing
+    script: scripts/download-file-and-asc.sh 'https://system-image.ubports.com/gpg/image-signing.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: Download image-master
+    chroot: false
+    script: scripts/download-file-and-asc.sh 'https://system-image.ubports.com/gpg/image-master.tar.xz' 'mnt/cache/recovery/'
+
+  - action: run
+    description: extract device tarball partitions for writing
+    chroot: false
+    command: busybox unxz -c mnt/cache/recovery/device-*.tar.xz | tar -xC . partitions/ -f -
+
+    # filesystem is a predefined origin, $scratchdir/root. $filesystem/.. is
+    # $scratchdir, where we download files above.
+    # It's not pretty, but it works.
+  - action: raw
+    description: Install recovery partition
+    origin: filesystem
+    source: ../partitions/recovery.img
+    offset: 0
+    partition: recovery_a
+
+  - action: run
+    description: Copy ubuntu_command file to cache partition
+    command: cp /root/files/ubuntu_command mnt/cache/recovery/ubuntu_command
+
+  - action: run
+    description: Mount needed partitions for preinstall
+    command: mkdir mnt/recovery && mkdir mnt/system && mount /dev/vda9 mnt/system && mount /dev/vda6 mnt/recovery
+
+  - action: run
+    description: Extract initramfs to new root
+    command: zcat mnt/recovery/initrd.img | cpio -idmvD mnt/
+
+  - action: run
+    description: Place a fake /proc/cmdline
+    command: mkdir mnt/proc && echo 'systempart=' > mnt/proc/cmdline
+
+  - action: run
+    description: Place a fake /proc/mounts
+    command: echo '/dev/vda10 /data nonsensestring' > mnt/proc/mounts
+
+  - action: run
+    description: Set up temporary root
+    command: mkdir mnt/sbin && mkdir -p mnt/usr/bin && mkdir mnt/dev && mount --bind /dev mnt/dev && chroot mnt/ /bin/busybox --install -s
+
+  - action: run
+    description: Place a fake mkfs.ext4
+    command: echo '#!/bin/sh\nmke2fs -t ext4 $@' > mnt/bin/mkfs.ext4 && chmod +x mnt/bin/mkfs.ext4
+
+  - action: run
+    description: Place a fake mount
+    command: rm mnt/bin/mount && echo '#!/bin/sh\nbusybox mount -t ext4 $@' > mnt/bin/mount && chmod +x mnt/bin/mount
+
+  - action: run
+    description: Place an fstab
+    command: echo '/dev/vda1 /loader none defaults \n/dev/vda2 /scr none defaults \n/dev/vda4 /boot ext2 defaults \n/dev/vda6 /recovery ext2 defaults \n/dev/vda9 /system ext4 defaults' > mnt/etc/recovery.fstab
+
+  - action: run
+    description: system-image installation
+    command: chroot mnt/ /bin/sh /system-image-upgrader /cache/recovery/ubuntu_command
+
+  - action: run
+    description: Create bmap file
+    postprocess: true
+    command: bmaptool create {{ $image }} > {{ $image }}.bmap
