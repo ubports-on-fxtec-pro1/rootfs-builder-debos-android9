@@ -94,7 +94,7 @@ actions:
 
   - action: run
     description: Download device tarball
-    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/pool/device-8004ef172c6967216ed9e0b12bf7fecb56ece899d7d7daca642e5c9a426ba5f8.tar.xz' 'mnt/cache/recovery/'
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/pool/device-9f01cf1f3596c4039968224f1559830b577735b3fd4d8e3634966dfa937858b9.tar.xz' 'mnt/cache/recovery/'
 
   - action: run
     description: Download keyring
@@ -102,7 +102,7 @@ actions:
 
   - action: run
     description: Download version overlay
-    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/16.04/arm64/pine/pinephone/version-2.tar.xz' 'mnt/cache/recovery/'
+    script: scripts/download-file-and-asc.sh 'http://system-image.ubports.com/16.04/arm64/pine/pinephone/version-8.tar.xz' 'mnt/cache/recovery/'
 
   - action: run
     description: Download image-signing
