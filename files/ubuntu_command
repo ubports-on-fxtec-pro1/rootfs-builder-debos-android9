@@ -3,7 +3,7 @@ load_keyring image-master.tar.xz image-master.tar.xz.asc
 load_keyring image-signing.tar.xz image-signing.tar.xz.asc
 mount system
 update ubports-e73f5d9ff8ebc130755265bc905d8dc5dc3f5f335d73f78aaf71fedc9835eede.tar.xz ubports-e73f5d9ff8ebc130755265bc905d8dc5dc3f5f335d73f78aaf71fedc9835eede.tar.xz.asc
-update device-9f01cf1f3596c4039968224f1559830b577735b3fd4d8e3634966dfa937858b9.tar.xz device-9f01cf1f3596c4039968224f1559830b577735b3fd4d8e3634966dfa937858b9.tar.xz.asc
+update device-79483579200169ecf965f2a71ef88bcb6cc98a28d8691b9070a72e67ee8d6433.tar.xz device-79483579200169ecf965f2a71ef88bcb6cc98a28d8691b9070a72e67ee8d6433.tar.xz.asc
 update keyring-4c4e7ef380ebcfa2c31084efa199138e93bfed8fc58aa3eb06bdf75a78af9b57.tar.xz keyring-4c4e7ef380ebcfa2c31084efa199138e93bfed8fc58aa3eb06bdf75a78af9b57.tar.xz.asc
-update version-8.tar.xz version-8.tar.xz.asc
+update version-10.tar.xz version-10.tar.xz.asc
 unmount system
